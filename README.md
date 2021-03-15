@@ -6,7 +6,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 
 - [x] Configurando o projeto
 - [x] Criando interface de login
-- [ ] Criando interface de cadastro
+- [x] Criando interface de cadastro
 - [ ] Validando cadastro de usuário
 - [ ] Cadastro de usuário
 - [ ] Login de usuário
@@ -44,3 +44,5 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 ## Screenshots
 
 <img src="./docs/screenshots/01.png" alt="Tela de Login"  width="300">
+
+<img src="./docs/screenshots/02.png" alt="Tela de Cadastro"  width="300">
