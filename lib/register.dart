@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+import 'home.dart';
+import 'model/user.dart';
 
 class Register extends StatefulWidget {
   @override
@@ -30,12 +34,38 @@ class _RegisterState extends State<Register> {
       return;
     }
 
-    if (passcode.length <= 5) {
+    if (passcode.length <= 6) {
       setState(() {
-        _messageError = "Senha deve conter mais de 5 caracteres";
+        _messageError = "Senha deve conter mais de 6 caracteres";
       });
       return;
     }
+
+    User user = new User();
+
+    user.name = name;
+    user.email = email;
+    user.passcode = passcode;
+
+    _registerInFirebase(user);
+  }
+
+  _registerInFirebase(User pUser) {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    auth
+        .createUserWithEmailAndPassword(
+            email: pUser.email, password: pUser.passcode)
+        .then((firebaseUser) {
+      setState(() {
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => Home()));
+      });
+    }).catchError((error) {
+      setState(() {
+        _messageError =
+            "Erro ao cadastrar usuário, verifique os campos e tente novamente!";
+      });
+    });
   }
 
   @override
