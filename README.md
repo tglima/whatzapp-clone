@@ -12,7 +12,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Login de usuário
 - [x] Salvando dados do usuário
 - [x] Criando interface com abas
-- [ ] Listando conversas
+- [x] Listando conversas
 - [ ] Menu de opções - PopupMenuButton
 - [ ] Recursos de rotas - avançado
 - [ ] Criando tela de configurações
