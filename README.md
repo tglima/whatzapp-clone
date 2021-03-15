@@ -4,7 +4,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 
 ## Checklist da Aulas
 
-- [ ] Configurando o projeto
+- [x] Configurando o projeto
 - [ ] Criando interface de login
 - [ ] Criando interface de cadastro
 - [ ] Validando cadastro de usuário
