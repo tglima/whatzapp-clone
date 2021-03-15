@@ -6,6 +6,38 @@ class Register extends StatefulWidget {
 }
 
 class _RegisterState extends State<Register> {
+  TextEditingController _controllerName = TextEditingController();
+  TextEditingController _controllerEmail = TextEditingController();
+  TextEditingController _controllerPasscode = TextEditingController();
+  String _messageError = "";
+
+  _validateFields() {
+    String name = _controllerName.text.toUpperCase();
+    String email = _controllerEmail.text.toUpperCase();
+    String passcode = _controllerPasscode.text;
+
+    if (name.length < 5) {
+      setState(() {
+        _messageError = "Nome precisa ter mais que 4 caracteres";
+      });
+      return;
+    }
+
+    if (!email.contains("@")) {
+      setState(() {
+        _messageError = "E-mail inválido!";
+      });
+      return;
+    }
+
+    if (passcode.length <= 5) {
+      setState(() {
+        _messageError = "Senha deve conter mais de 5 caracteres";
+      });
+      return;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,6 +62,7 @@ class _RegisterState extends State<Register> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
+                    controller: _controllerName,
                     autofocus: true,
                     keyboardType: TextInputType.text,
                     style: TextStyle(fontSize: 20),
@@ -45,6 +78,7 @@ class _RegisterState extends State<Register> {
                 Padding(
                   padding: EdgeInsets.only(bottom: 8),
                   child: TextField(
+                    controller: _controllerEmail,
                     keyboardType: TextInputType.emailAddress,
                     style: TextStyle(fontSize: 20),
                     decoration: InputDecoration(
@@ -57,6 +91,8 @@ class _RegisterState extends State<Register> {
                   ),
                 ),
                 TextField(
+                  controller: _controllerPasscode,
+                  obscureText: true,
                   keyboardType: TextInputType.text,
                   style: TextStyle(fontSize: 20),
                   decoration: InputDecoration(
@@ -78,9 +114,16 @@ class _RegisterState extends State<Register> {
                     padding: EdgeInsets.fromLTRB(32, 16, 32, 16),
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(32)),
-                    onPressed: () {},
+                    onPressed: () {
+                      _validateFields();
+                    },
                   ),
-                )
+                ),
+                Center(
+                    child: Text(
+                  _messageError,
+                  style: TextStyle(color: Colors.red, fontSize: 20),
+                ))
               ],
             ),
           ),
