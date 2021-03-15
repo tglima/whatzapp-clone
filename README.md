@@ -10,7 +10,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Validando cadastro de usuário
 - [x] Cadastro de usuário
 - [x] Login de usuário
-- [ ] Salvando dados do usuário
+- [x] Salvando dados do usuário
 - [ ] Criando interface com abas
 - [ ] Listando conversas
 - [ ] Menu de opções - PopupMenuButton

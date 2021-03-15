@@ -5,6 +5,11 @@ class User {
 
   User();
 
+  Map<String, dynamic> toMap() {
+    Map<String, dynamic> map = {"name": this.name, "email": this.email};
+    return map;
+  }
+
   String get passcode => _passcode;
   set passcode(String value) {
     _passcode = value;
