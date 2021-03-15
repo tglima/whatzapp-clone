@@ -13,7 +13,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Salvando dados do usuário
 - [x] Criando interface com abas
 - [x] Listando conversas
-- [ ] Menu de opções - PopupMenuButton
+- [x] Menu de opções - PopupMenuButton
 - [ ] Recursos de rotas - avançado
 - [ ] Criando tela de configurações
 - [ ] Fazendo upload da imagem do perfil
@@ -46,3 +46,5 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 <img src="./docs/screenshots/01.png" alt="Tela de Login" width="300">
 
 <img src="./docs/screenshots/02.png" alt="Tela de Cadastro" width="300">
+
+<img src="./docs/screenshots/03.png" alt="Lista de Conversas" width="300">
