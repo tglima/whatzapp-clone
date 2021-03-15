@@ -56,10 +56,7 @@ class _RegisterState extends State<Register> {
         .createUserWithEmailAndPassword(
             email: pUser.email, password: pUser.passcode)
         .then((firebaseUser) {
-      setState(() {
-        Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Home()));
-      });
+      Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
     }).catchError((error) {
       setState(() {
         _messageError =

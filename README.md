@@ -9,7 +9,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Criando interface de cadastro
 - [x] Validando cadastro de usuário
 - [x] Cadastro de usuário
-- [ ] Login de usuário
+- [x] Login de usuário
 - [ ] Salvando dados do usuário
 - [ ] Criando interface com abas
 - [ ] Listando conversas
