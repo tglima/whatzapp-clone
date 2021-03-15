@@ -5,7 +5,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 ## Checklist da Aulas
 
 - [x] Configurando o projeto
-- [ ] Criando interface de login
+- [x] Criando interface de login
 - [ ] Criando interface de cadastro
 - [ ] Validando cadastro de usuário
 - [ ] Cadastro de usuário
@@ -40,3 +40,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 |Flutter|1.22.5|
 |Dart|2.10.4|
 |Android SDK|=> 22 && <= 29|
+
+## Screenshots
+
+<img src="./docs/screenshots/01.png" alt="Tela de Login"  width="300">
