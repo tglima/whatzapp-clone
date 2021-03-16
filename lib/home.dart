@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:whatzapp/screen/tabContact.dart';
 import 'package:whatzapp/screen/tabTalk.dart';
 
-import 'login.dart';
-
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
@@ -37,8 +35,7 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   _signOutUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
     await auth.signOut();
-    Navigator.pushReplacement(
-        context, MaterialPageRoute(builder: (context) => Login()));
+    Navigator.pushReplacementNamed(context, "/login");
   }
 
   @override

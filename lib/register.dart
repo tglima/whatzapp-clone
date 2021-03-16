@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'home.dart';
 import 'model/user.dart';
 
 class Register extends StatefulWidget {
@@ -59,9 +57,7 @@ class _RegisterState extends State<Register> {
         .then((firebaseUser) {
       Firestore db = Firestore.instance;
       db.collection("users").document(firebaseUser.uid).setData(pUser.toMap());
-
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.pushNamedAndRemoveUntil(context, "/home", (route) => false);
     }).catchError((error) {
       setState(() {
         _messageError =

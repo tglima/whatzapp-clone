@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:whatzapp/register.dart';
-
-import 'home.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'model/user.dart';
 
 class Login extends StatefulWidget {
@@ -46,8 +43,7 @@ class _LoginState extends State<Login> {
     auth
         .signInWithEmailAndPassword(email: user.email, password: user.passcode)
         .then((firebaseUser) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.pushReplacementNamed(context, "/home");
     }).catchError((error) {
       setState(() {
         _messageError =
@@ -60,12 +56,8 @@ class _LoginState extends State<Login> {
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseUser userLoged = await auth.currentUser();
 
-    //deslogar usuario
-    //auth.signOut();
-
     if (userLoged != null) {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => Home()));
+      Navigator.pushReplacementNamed(context, "/home");
     }
   }
 
@@ -145,8 +137,7 @@ class _LoginState extends State<Login> {
                       style: TextStyle(color: Colors.white),
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context,
-                          MaterialPageRoute(builder: (context) => Register()));
+                      Navigator.pushNamed(context, "/register");
                     },
                   ),
                 ),

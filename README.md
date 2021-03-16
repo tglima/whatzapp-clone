@@ -14,7 +14,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Criando interface com abas
 - [x] Listando conversas
 - [x] Menu de opções - PopupMenuButton
-- [ ] Recursos de rotas - avançado
+- [x] Recursos de rotas - avançado
 - [ ] Criando tela de configurações
 - [ ] Fazendo upload da imagem do perfil
 - [ ] Atualizando dados do perfil
