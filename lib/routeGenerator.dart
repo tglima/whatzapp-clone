@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:whatzapp/home.dart';
 import 'package:whatzapp/register.dart';
+import 'package:whatzapp/userConfiguration.dart';
 
 import 'login.dart';
 
@@ -15,6 +16,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Register());
       case "/home":
         return MaterialPageRoute(builder: (context) => Home());
+      case "/config":
+        return MaterialPageRoute(builder: (context) => UserConfiguration());
       default:
         return _errorRoute();
     }
