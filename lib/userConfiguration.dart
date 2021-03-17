@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
@@ -61,16 +62,47 @@ class _UserConfigurationState extends State<UserConfiguration> {
   }
 
   _getDataUser() async {
+    Firestore db = Firestore.instance;
     FirebaseAuth auth = FirebaseAuth.instance;
     FirebaseUser user = await auth.currentUser();
     _idUserLogged = user.uid;
+    DocumentSnapshot snapshot =
+        await db.collection("users").document(_idUserLogged).get();
+
+    Map<String, dynamic> data = snapshot.data;
+
+    _controllerName.text = data["name"];
+
+    if (data["urlImage"] != null) {
+      setState(() {
+        _urlImageFromFirebase = data["urlImage"];
+      });
+    }
   }
 
   _getUrlImage(StorageTaskSnapshot snapshot) async {
     String url = await snapshot.ref.getDownloadURL();
+    _updateUrlImage(url);
+
     setState(() {
       _urlImageFromFirebase = url;
     });
+  }
+
+  _updateUrlImage(String url) {
+    Firestore db = Firestore.instance;
+    db
+        .collection("users")
+        .document(_idUserLogged)
+        .updateData({"urlImage": url});
+  }
+
+  _updateNameUser() {
+    Firestore db = Firestore.instance;
+    db
+        .collection("users")
+        .document(_idUserLogged)
+        .updateData({"name": _controllerName.text});
   }
 
   @override
@@ -89,9 +121,13 @@ class _UserConfigurationState extends State<UserConfiguration> {
             child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              _uploadingImage ? CircularProgressIndicator() : Container(),
+              Container(
+                  padding: EdgeInsets.all(16),
+                  child: _uploadingImage
+                      ? CircularProgressIndicator()
+                      : Container()),
               CircleAvatar(
-                  radius: 100,
+                  radius: 75,
                   backgroundColor: Colors.grey,
                   backgroundImage: _urlImageFromFirebase != null
                       ? NetworkImage(_urlImageFromFirebase)
@@ -138,7 +174,7 @@ class _UserConfigurationState extends State<UserConfiguration> {
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(32)),
                   onPressed: () {
-                    //_validateFields();
+                    _updateNameUser();
                   },
                 ),
               ),

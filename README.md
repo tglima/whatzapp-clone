@@ -17,7 +17,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Recursos de rotas - avançado
 - [x] Criando tela de configurações
 - [x] Fazendo upload da imagem do perfil
-- [ ] Atualizando dados do perfil
+- [x] Atualizando dados do perfil
 - [ ] Listando contatos
 - [ ] Abrindo tela de mensagem
 - [ ] Criando interface de mensagem - parte 1
