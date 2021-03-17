@@ -19,7 +19,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Fazendo upload da imagem do perfil
 - [x] Atualizando dados do perfil
 - [x] Listando contatos
-- [ ] Abrindo tela de mensagem
+- [x] Abrindo tela de mensagem
 - [ ] Criando interface de mensagem - parte 1
 - [ ] Criando interface de mensagem - parte 2
 - [ ] Salvando mensagem & ajuste na interface

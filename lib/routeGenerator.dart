@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:whatzapp/home.dart';
+import 'package:whatzapp/messages.dart';
 import 'package:whatzapp/register.dart';
 import 'package:whatzapp/userConfiguration.dart';
 
@@ -7,6 +8,8 @@ import 'login.dart';
 
 class RouteGenerator {
   static Route<dynamic> generateRoute(RouteSettings pRouteSettings) {
+    final args = pRouteSettings.arguments;
+
     switch (pRouteSettings.name) {
       case "/":
         return MaterialPageRoute(builder: (context) => Login());
@@ -18,6 +21,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (context) => Home());
       case "/config":
         return MaterialPageRoute(builder: (context) => UserConfiguration());
+      case "/messages":
+        return MaterialPageRoute(builder: (context) => Messages(args));
       default:
         return _errorRoute();
     }
