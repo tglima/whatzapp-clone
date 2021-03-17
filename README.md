@@ -18,7 +18,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Criando tela de configurações
 - [x] Fazendo upload da imagem do perfil
 - [x] Atualizando dados do perfil
-- [ ] Listando contatos
+- [x] Listando contatos
 - [ ] Abrindo tela de mensagem
 - [ ] Criando interface de mensagem - parte 1
 - [ ] Criando interface de mensagem - parte 2
@@ -48,3 +48,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 <img src="./docs/screenshots/02.png" alt="Tela de Cadastro" width="300">
 
 <img src="./docs/screenshots/03.png" alt="Lista de Conversas" width="300">
+
+<img src="./docs/screenshots/04.png" alt="Lista de Contatos" width="300">
+
+<img src="./docs/screenshots/05.png" alt="Tela de Configurações" width="300">

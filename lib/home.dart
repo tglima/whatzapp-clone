@@ -11,15 +11,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   TabController _tabController;
   List<String> _menuItems = ["Configurações", "Deslogar"];
-  String _emailUser = "";
-
-  Future _getDataUser() async {
-    FirebaseAuth auth = FirebaseAuth.instance;
-    FirebaseUser userLoged = await auth.currentUser();
-    setState(() {
-      _emailUser = userLoged.email;
-    });
-  }
 
   _choseMenuItem(String pItemChosed) {
     switch (pItemChosed) {
@@ -41,7 +32,6 @@ class _HomeState extends State<Home> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    _getDataUser();
     _tabController = TabController(length: 2, vsync: this);
   }
 
