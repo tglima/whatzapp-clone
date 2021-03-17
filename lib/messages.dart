@@ -33,6 +33,7 @@ class _MessagesState extends State<Messages> {
       message.urlImage = "";
       message.typeMessage = "text";
       _saveMessage(_idUserLogged, _idUserRecipient, message);
+      _saveMessage(_idUserRecipient, _idUserLogged, message);
       _controllerMessage.clear();
     }
   }
