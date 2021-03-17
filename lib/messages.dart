@@ -11,6 +11,13 @@ class Messages extends StatefulWidget {
 }
 
 class _MessagesState extends State<Messages> {
+  List<String> listaMensagens = [
+    "Olá, tudo bem?",
+    "Tudo certo e com você?",
+    "Vamos terminar aquele curso hoje?",
+    "Não sei ainda, to bem enrolado..."
+  ];
+
   TextEditingController _controllerMessage = TextEditingController();
   _sendMessage() {}
   _sendPhoto() {}
@@ -51,6 +58,37 @@ class _MessagesState extends State<Messages> {
           )
         ]));
 
+    Expanded exListView = Expanded(
+      child: ListView.builder(
+          itemCount: listaMensagens.length,
+          itemBuilder: (context, index) {
+            double widthMsgBox = MediaQuery.of(context).size.width * 0.8;
+            Alignment msgAlingnment = Alignment.centerRight;
+            Color bgMsgColor = Color(0xffd2ffa5);
+
+            if (index % 2 == 0) {
+              msgAlingnment = Alignment.centerLeft;
+              bgMsgColor = Colors.white;
+            }
+
+            return Align(
+              alignment: msgAlingnment,
+              child: Padding(
+                padding: EdgeInsets.all(6),
+                child: Container(
+                  width: widthMsgBox,
+                  padding: EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                      color: bgMsgColor,
+                      borderRadius: BorderRadius.all(Radius.circular(8))),
+                  child: Text(listaMensagens[index],
+                      style: TextStyle(fontSize: 14)),
+                ),
+              ),
+            );
+          }),
+    );
+
     return Scaffold(
         appBar: AppBar(title: Text(widget.contact.name)),
         body: Container(
@@ -61,8 +99,7 @@ class _MessagesState extends State<Messages> {
           child: SafeArea(
               child: Container(
             padding: EdgeInsets.all(8),
-            child:
-                Column(children: <Widget>[Text("listview"), inputMessageBox]),
+            child: Column(children: <Widget>[exListView, inputMessageBox]),
           )),
         ));
   }
