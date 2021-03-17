@@ -20,7 +20,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Atualizando dados do perfil
 - [x] Listando contatos
 - [x] Abrindo tela de mensagem
-- [ ] Criando interface de mensagem - parte 1
+- [x] Criando interface de mensagem - parte 1
 - [ ] Criando interface de mensagem - parte 2
 - [ ] Salvando mensagem & ajuste na interface
 - [ ] Recuperando mensagens
