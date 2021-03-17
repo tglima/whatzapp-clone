@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,10 +13,12 @@ class UserConfiguration extends StatefulWidget {
 class _UserConfigurationState extends State<UserConfiguration> {
   TextEditingController _controllerName = TextEditingController();
   File _image;
+  String _idUserLogged;
+  bool _uploadingImage = false;
+  String _urlImageFromFirebase;
 
   Future _getImage(bool pFromCamera) async {
     File selectedImage;
-
     switch (pFromCamera) {
       case true:
         selectedImage = await ImagePicker.pickImage(source: ImageSource.camera);
@@ -27,7 +31,52 @@ class _UserConfigurationState extends State<UserConfiguration> {
 
     setState(() {
       _image = selectedImage;
+      if (_image != null) {
+        _uploadingImage = true;
+        _uploadImageProfile();
+      }
     });
+  }
+
+  Future _uploadImageProfile() async {
+    FirebaseStorage storage = FirebaseStorage.instance;
+    StorageReference folderRoot = storage.ref();
+    StorageReference file =
+        folderRoot.child("perfil").child(_idUserLogged + ".jpg");
+    StorageUploadTask task = file.putFile(_image);
+
+    task.events.listen((StorageTaskEvent storageTaskEvent) {
+      if (storageTaskEvent.type == StorageTaskEventType.progress) {
+        setState(() {
+          _uploadingImage = true;
+        });
+      } else if (storageTaskEvent.type == StorageTaskEventType.success) {
+        _uploadingImage = false;
+      }
+    });
+
+    task.onComplete.then((StorageTaskSnapshot snapshot) {
+      _getUrlImage(snapshot);
+    });
+  }
+
+  _getDataUser() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseUser user = await auth.currentUser();
+    _idUserLogged = user.uid;
+  }
+
+  _getUrlImage(StorageTaskSnapshot snapshot) async {
+    String url = await snapshot.ref.getDownloadURL();
+    setState(() {
+      _urlImageFromFirebase = url;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getDataUser();
   }
 
   @override
@@ -40,13 +89,13 @@ class _UserConfigurationState extends State<UserConfiguration> {
             child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              //Carregando
+              _uploadingImage ? CircularProgressIndicator() : Container(),
               CircleAvatar(
-                radius: 100,
-                backgroundColor: Colors.grey,
-                backgroundImage: NetworkImage(
-                    "https://firebasestorage.googleapis.com/v0/b/cuwhatzapp.appspot.com/o/perfil%2Fperfil3.jpg?alt=media&token=d2823e97-9979-416a-94ce-61eecd464b08"),
-              ),
+                  radius: 100,
+                  backgroundColor: Colors.grey,
+                  backgroundImage: _urlImageFromFirebase != null
+                      ? NetworkImage(_urlImageFromFirebase)
+                      : null),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
