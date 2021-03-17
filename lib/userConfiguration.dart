@@ -20,15 +20,18 @@ class _UserConfigurationState extends State<UserConfiguration> {
 
   Future _getImage(bool pFromCamera) async {
     File selectedImage;
+    PickedFile pickedFile;
+
     switch (pFromCamera) {
       case true:
-        selectedImage = await ImagePicker.pickImage(source: ImageSource.camera);
+        pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
         break;
       case false:
-        selectedImage =
-            await ImagePicker.pickImage(source: ImageSource.gallery);
+        pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
         break;
     }
+
+    selectedImage = File(pickedFile.path);
 
     setState(() {
       _image = selectedImage;

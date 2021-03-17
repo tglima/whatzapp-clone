@@ -64,6 +64,7 @@ class _TabContactState extends State<TabContact> {
   Widget build(BuildContext context) {
     return FutureBuilder<List<User>>(
         future: _getContacts(),
+        // ignore: missing_return
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:

@@ -23,7 +23,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Criando interface de mensagem - parte 1
 - [x] Criando interface de mensagem - parte 2
 - [x] Salvando mensagem & ajuste na interface
-- [ ] Recuperando mensagens
+- [x] Recuperando mensagens
 - [ ] Trocando mensagens
 - [ ] Enviando imagem na mensagem
 - [ ] Salvando conversa
