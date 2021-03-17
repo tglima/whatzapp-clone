@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:whatzapp/model/message.dart';
 import 'package:whatzapp/model/user.dart';
 
 class Messages extends StatefulWidget {
-  User contact;
-
+  final User contact;
   Messages(this.contact);
 
   @override
@@ -19,11 +21,48 @@ class _MessagesState extends State<Messages> {
   ];
 
   TextEditingController _controllerMessage = TextEditingController();
-  _sendMessage() {}
+  String _idUserLogged;
+  String _idUserRecipient;
+
+  _getDataUser() async {
+    FirebaseAuth auth = FirebaseAuth.instance;
+    FirebaseUser user = await auth.currentUser();
+    _idUserLogged = user.uid;
+    _idUserRecipient = widget.contact.idUser;
+  }
+
+  _sendMessage() {
+    if (_controllerMessage.text.isNotEmpty) {
+      Message message = Message();
+      message.idUser = _idUserLogged;
+      message.text = _controllerMessage.text;
+      message.urlImage = "";
+      message.typeMessage = "text";
+      _saveMessage(_idUserLogged, _idUserRecipient, message);
+      _controllerMessage.clear();
+    }
+  }
+
   _sendPhoto() {}
+
+  _saveMessage(String idSender, String idRecipient, Message message) async {
+    Firestore db = Firestore.instance;
+    await db
+        .collection("messages")
+        .document(idSender)
+        .collection(idRecipient)
+        .add(message.toMap());
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getDataUser();
+  }
+
   @override
   Widget build(BuildContext context) {
-    var inputMessageBox = Container(
+    Container inputMessageBox = Container(
         padding: EdgeInsets.all(8),
         child: Row(children: <Widget>[
           Expanded(
@@ -89,8 +128,21 @@ class _MessagesState extends State<Messages> {
           }),
     );
 
+    CircleAvatar imgUserCircle = CircleAvatar(
+        maxRadius: 20,
+        backgroundColor: Colors.grey,
+        backgroundImage: widget.contact.urlImage != null
+            ? NetworkImage(widget.contact.urlImage)
+            : null);
+
     return Scaffold(
-        appBar: AppBar(title: Text(widget.contact.name)),
+        appBar: AppBar(
+            title: Row(children: <Widget>[
+          imgUserCircle,
+          Padding(
+              padding: EdgeInsets.only(left: 8),
+              child: Text(widget.contact.name))
+        ])),
         body: Container(
           width: MediaQuery.of(context).size.width,
           decoration: BoxDecoration(

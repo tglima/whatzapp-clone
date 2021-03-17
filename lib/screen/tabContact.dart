@@ -38,6 +38,7 @@ class _TabContactState extends State<TabContact> {
           _emailUserLogged.toUpperCase()) continue;
 
       User user = User();
+      user.idUser = item.documentID;
       user.email = dataUser["email"];
       user.name = dataUser["name"];
       user.urlImage = dataUser["urlImage"];
