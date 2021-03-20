@@ -1,11 +1,33 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class Talk {
-  String _userContact;
-  String _message;
-  String _pathImage;
+  String idUserSender;
+  String idUserRecipient;
+  String name;
+  String message;
+  String urlImage;
+  String typeMessage;
 
-  Talk(this._userContact, this._message, this._pathImage);
+  Talk();
 
-  String get userContact => _userContact;
-  String get message => _message;
-  String get pathImage => _pathImage;
+  Map<String, dynamic> toMap() {
+    return {
+      "idUserSender": this.idUserSender,
+      "idUserRecipient": this.idUserRecipient,
+      "name": this.name,
+      "message": this.message,
+      "urlImage": this.urlImage,
+      "typeMessage": this.typeMessage
+    };
+  }
+
+  saveInFirestore() async {
+    Firestore db = Firestore.instance;
+    await db
+        .collection("talks")
+        .document(this.idUserSender)
+        .collection("lastTalk")
+        .document(this.idUserRecipient)
+        .setData(this.toMap());
+  }
 }

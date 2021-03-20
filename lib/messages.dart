@@ -8,6 +8,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:whatzapp/model/message.dart';
 import 'package:whatzapp/model/user.dart';
 
+import 'model/talk.dart';
+
 class Messages extends StatefulWidget {
   final User contact;
   Messages(this.contact);
@@ -39,6 +41,7 @@ class _MessagesState extends State<Messages> {
       message.typeMessage = "text";
       _saveMessage(_idUserLogged, _idUserRecipient, message);
       _saveMessage(_idUserRecipient, _idUserLogged, message);
+      _saveTalk(message);
       _controllerMessage.clear();
     }
   }
@@ -91,6 +94,26 @@ class _MessagesState extends State<Messages> {
         .document(idSender)
         .collection(idRecipient)
         .add(message.toMap());
+  }
+
+  _saveTalk(Message msg) {
+    Talk tSender = new Talk();
+    tSender.idUserSender = _idUserLogged;
+    tSender.idUserRecipient = _idUserRecipient;
+    tSender.message = msg.text;
+    tSender.name = widget.contact.name;
+    tSender.urlImage = widget.contact.urlImage;
+    tSender.typeMessage = msg.typeMessage;
+    tSender.saveInFirestore();
+
+    Talk tRecipient = new Talk();
+    tRecipient.idUserSender = _idUserRecipient;
+    tRecipient.idUserRecipient = _idUserLogged;
+    tRecipient.message = msg.text;
+    tRecipient.name = widget.contact.name;
+    tRecipient.urlImage = widget.contact.urlImage;
+    tRecipient.typeMessage = msg.typeMessage;
+    tRecipient.saveInFirestore();
   }
 
   @override
