@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:whatzapp/model/talk.dart';
+import 'package:whatzapp/model/user.dart';
 
 class TabTalk extends StatefulWidget {
   @override
@@ -10,7 +10,6 @@ class TabTalk extends StatefulWidget {
 }
 
 class _TabTalkState extends State<TabTalk> {
-  List<Talk> _talkList = List();
   final _controller = StreamController<QuerySnapshot>.broadcast();
   String _idUserLogged;
   Firestore _db = Firestore.instance;
@@ -39,13 +38,12 @@ class _TabTalkState extends State<TabTalk> {
   void initState() {
     super.initState();
     _getDataUser();
-    Talk talk = new Talk();
-    talk.name = "Ana Clara";
-    talk.message = "Olá tudo bem?";
-    talk.urlImage =
-        "https://firebasestorage.googleapis.com/v0/b/cuwhatzapp.appspot.com/o/perfil%2Fperfil1.jpg?alt=media&token=018c8d65-d4a8-4586-9214-906d079560ea";
+  }
 
-    _talkList.add(talk);
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.close();
   }
 
   @override
@@ -79,13 +77,22 @@ class _TabTalkState extends State<TabTalk> {
               }
 
               return ListView.builder(
-                  itemCount: _talkList.length,
+                  itemCount: querySnapshot.documents.length,
                   itemBuilder: (context, index) {
                     List<DocumentSnapshot> list =
                         querySnapshot.documents.toList();
                     DocumentSnapshot talkItem = list[index];
 
+                    User user = User();
+                    user.name = talkItem["name"];
+                    user.urlImage = talkItem["urlImage"];
+                    user.idUser = talkItem["idUserRecipient"];
+
                     return ListTile(
+                        onTap: () {
+                          Navigator.pushNamed(context, "/messages",
+                              arguments: user);
+                        },
                         contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8),
                         leading: CircleAvatar(
                             maxRadius: 30,
