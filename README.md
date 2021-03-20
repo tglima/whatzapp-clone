@@ -29,7 +29,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Salvando conversa
 - [x] Listando conversas
 - [x] Ajustes & Definindo tema Android e IOS
-- [ ] Rolando mensagens automaticamente
+- [x] Rolando mensagens automaticamente
 - [ ] Ordenando mensagens por data
 - [ ] WhatzApp Projeto Final
 

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -20,6 +21,8 @@ class Messages extends StatefulWidget {
 
 class _MessagesState extends State<Messages> {
   TextEditingController _controllerMessage = TextEditingController();
+  final _controller = StreamController<QuerySnapshot>.broadcast();
+  ScrollController _scrollController = ScrollController();
   String _idUserLogged;
   String _idUserRecipient;
   Firestore _db = Firestore.instance;
@@ -30,6 +33,7 @@ class _MessagesState extends State<Messages> {
     FirebaseUser user = await auth.currentUser();
     _idUserLogged = user.uid;
     _idUserRecipient = widget.contact.idUser;
+    _addListenerTalks();
   }
 
   _sendMessage() {
@@ -116,6 +120,22 @@ class _MessagesState extends State<Messages> {
     tRecipient.saveInFirestore();
   }
 
+  _addListenerTalks() {
+    final stream = _db
+        .collection("messages")
+        .document(_idUserLogged)
+        .collection(_idUserRecipient)
+        .snapshots();
+
+    stream.listen((snapshots) {
+      _controller.add(snapshots);
+
+      Timer(Duration(seconds: 1), () {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      });
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -162,11 +182,7 @@ class _MessagesState extends State<Messages> {
         ]));
 
     StreamBuilder stream = StreamBuilder(
-      stream: _db
-          .collection("messages")
-          .document(_idUserLogged)
-          .collection(_idUserRecipient)
-          .snapshots(),
+      stream: _controller.stream,
       // ignore: missing_return
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
@@ -188,6 +204,7 @@ class _MessagesState extends State<Messages> {
             } else {
               return Expanded(
                 child: ListView.builder(
+                    controller: _scrollController,
                     itemCount: querySnapshot.documents.length,
                     itemBuilder: (context, index) {
                       List<DocumentSnapshot> listDocuments =
