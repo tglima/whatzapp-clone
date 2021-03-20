@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:whatzapp/model/message.dart';
 import 'package:whatzapp/model/user.dart';
 
@@ -17,6 +21,7 @@ class _MessagesState extends State<Messages> {
   String _idUserLogged;
   String _idUserRecipient;
   Firestore _db = Firestore.instance;
+  bool _uploadingImage = false;
 
   _getDataUser() async {
     FirebaseAuth auth = FirebaseAuth.instance;
@@ -38,7 +43,47 @@ class _MessagesState extends State<Messages> {
     }
   }
 
-  _sendPhoto() {}
+  _sendPhoto() async {
+    File selectedImage;
+    PickedFile pickedFile;
+    pickedFile = await ImagePicker().getImage(source: ImageSource.gallery);
+    selectedImage = File(pickedFile.path);
+    _uploadingImage = true;
+
+    String fileName = DateTime.now().microsecondsSinceEpoch.toString();
+    FirebaseStorage storage = FirebaseStorage.instance;
+    StorageReference folderRoot = storage.ref();
+    StorageReference file = folderRoot
+        .child("messagesImage")
+        .child(_idUserLogged)
+        .child(fileName + ".jpg");
+    StorageUploadTask task = file.putFile(selectedImage);
+
+    task.events.listen((StorageTaskEvent storageTaskEvent) {
+      if (storageTaskEvent.type == StorageTaskEventType.progress) {
+        setState(() {
+          _uploadingImage = true;
+        });
+      } else if (storageTaskEvent.type == StorageTaskEventType.success) {
+        _uploadingImage = false;
+      }
+    });
+
+    task.onComplete.then((StorageTaskSnapshot snapshot) {
+      _getUrlImageMessage(snapshot);
+    });
+  }
+
+  _getUrlImageMessage(StorageTaskSnapshot snapshot) async {
+    String url = await snapshot.ref.getDownloadURL();
+    Message message = Message();
+    message.idUser = _idUserLogged;
+    message.text = "";
+    message.urlImage = url;
+    message.typeMessage = "image";
+    _saveMessage(_idUserLogged, _idUserRecipient, message);
+    _saveMessage(_idUserRecipient, _idUserLogged, message);
+  }
 
   _saveMessage(String idSender, String idRecipient, Message message) async {
     await _db
@@ -74,10 +119,12 @@ class _MessagesState extends State<Messages> {
                   fillColor: Colors.white,
                   border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(32)),
-                  prefixIcon: IconButton(
-                    icon: Icon(Icons.camera_alt),
-                    onPressed: _sendPhoto,
-                  )),
+                  prefixIcon: _uploadingImage
+                      ? CircularProgressIndicator()
+                      : IconButton(
+                          icon: Icon(Icons.camera_alt),
+                          onPressed: _sendPhoto,
+                        )),
             ),
           )),
           FloatingActionButton(
@@ -140,15 +187,18 @@ class _MessagesState extends State<Messages> {
                         child: Padding(
                           padding: EdgeInsets.all(6),
                           child: Container(
-                            width: widthMsgBox,
-                            padding: EdgeInsets.all(16),
-                            decoration: BoxDecoration(
-                                color: bgMsgColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(8))),
-                            child: Text(documentSnapshot.data["text"],
-                                style: TextStyle(fontSize: 14)),
-                          ),
+                              width: widthMsgBox,
+                              padding: EdgeInsets.all(16),
+                              decoration: BoxDecoration(
+                                  color: bgMsgColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(8))),
+                              child:
+                                  documentSnapshot.data["typeMessage"] == "text"
+                                      ? Text(documentSnapshot.data["text"],
+                                          style: TextStyle(fontSize: 14))
+                                      : Image.network(
+                                          documentSnapshot.data["urlImage"])),
                         ),
                       );
                     }),

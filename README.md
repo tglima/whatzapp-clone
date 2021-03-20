@@ -25,7 +25,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Salvando mensagem & ajuste na interface
 - [x] Recuperando mensagens
 - [x] Trocando mensagens
-- [ ] Enviando imagem na mensagem
+- [x] Enviando imagem na mensagem
 - [ ] Salvando conversa
 - [ ] Listando conversas
 - [ ] Ajustes & Definindo tema Android e IOS
