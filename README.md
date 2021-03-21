@@ -43,14 +43,12 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 
 ## Screenshots
 
-<img src="./docs/screenshots/01.png" alt="Tela de Login" width="300">
+<img src="./docs/screenshots/01.png" alt="Tela de Login" width="300" style="padding-right: 10px;"><img src="./docs/screenshots/02.png" alt="Tela de Cadastro" width="300">
 
-<img src="./docs/screenshots/02.png" alt="Tela de Cadastro" width="300">
+<img src="./docs/screenshots/03.png" alt="Lista de Conversas" width="300" style="padding-right: 10px;"><img src="./docs/screenshots/04.png" alt="Lista de Contatos" width="300">
 
-<img src="./docs/screenshots/03.png" alt="Lista de Conversas" width="300">
+<img src="./docs/screenshots/06.png" alt="Tela de Conversa" width="300" style="padding-right: 10px;"><img src="./docs/screenshots/05.png" alt="Tela de Configurações" width="300">
 
-<img src="./docs/screenshots/04.png" alt="Lista de Contatos" width="300">
+## Downloads
 
-<img src="./docs/screenshots/05.png" alt="Tela de Configurações" width="300">
-
-<img src="./docs/screenshots/06.png" alt="Tela de Conversa" width="300">
+[APK v1.0](https://github.com/tglima/whatzapp-clone/releases/download/v1.0/app-release.apk)
