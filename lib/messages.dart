@@ -24,6 +24,8 @@ class _MessagesState extends State<Messages> {
   final _controller = StreamController<QuerySnapshot>.broadcast();
   ScrollController _scrollController = ScrollController();
   String _idUserLogged;
+  String _urlImageUserLogged = "";
+  String _nameUserLogged = "";
   String _idUserRecipient;
   Firestore _db = Firestore.instance;
   bool _uploadingImage = false;
@@ -33,6 +35,15 @@ class _MessagesState extends State<Messages> {
     FirebaseUser user = await auth.currentUser();
     _idUserLogged = user.uid;
     _idUserRecipient = widget.contact.idUser;
+
+    DocumentSnapshot doc =
+        await _db.collection("users").document(_idUserLogged).get();
+
+    if (doc.exists) {
+      _urlImageUserLogged = doc.data["urlImage"];
+      _nameUserLogged = doc.data["name"];
+    }
+
     _addListenerTalks();
   }
 
@@ -43,6 +54,8 @@ class _MessagesState extends State<Messages> {
       message.text = _controllerMessage.text;
       message.urlImage = "";
       message.typeMessage = "text";
+      message.date = Timestamp.now().toString();
+
       _saveMessage(_idUserLogged, _idUserRecipient, message);
       _saveMessage(_idUserRecipient, _idUserLogged, message);
       _saveTalk(message);
@@ -88,6 +101,7 @@ class _MessagesState extends State<Messages> {
     message.text = "";
     message.urlImage = url;
     message.typeMessage = "image";
+    message.date = Timestamp.now().toString();
     _saveMessage(_idUserLogged, _idUserRecipient, message);
     _saveMessage(_idUserRecipient, _idUserLogged, message);
   }
@@ -101,7 +115,16 @@ class _MessagesState extends State<Messages> {
   }
 
   _saveTalk(Message msg) {
-    Talk tSender = new Talk();
+    Talk tRecipient = Talk();
+    tRecipient.idUserSender = _idUserRecipient;
+    tRecipient.idUserRecipient = _idUserLogged;
+    tRecipient.message = msg.text;
+    tRecipient.name = _nameUserLogged;
+    tRecipient.urlImage = _urlImageUserLogged;
+    tRecipient.typeMessage = msg.typeMessage;
+    tRecipient.saveInFirestore();
+
+    Talk tSender = Talk();
     tSender.idUserSender = _idUserLogged;
     tSender.idUserRecipient = _idUserRecipient;
     tSender.message = msg.text;
@@ -109,15 +132,6 @@ class _MessagesState extends State<Messages> {
     tSender.urlImage = widget.contact.urlImage;
     tSender.typeMessage = msg.typeMessage;
     tSender.saveInFirestore();
-
-    Talk tRecipient = new Talk();
-    tRecipient.idUserSender = _idUserRecipient;
-    tRecipient.idUserRecipient = _idUserLogged;
-    tRecipient.message = msg.text;
-    tRecipient.name = widget.contact.name;
-    tRecipient.urlImage = widget.contact.urlImage;
-    tRecipient.typeMessage = msg.typeMessage;
-    tRecipient.saveInFirestore();
   }
 
   _addListenerTalks() {
@@ -125,6 +139,7 @@ class _MessagesState extends State<Messages> {
         .collection("messages")
         .document(_idUserLogged)
         .collection(_idUserRecipient)
+        .orderBy("date", descending: false)
         .snapshots();
 
     stream.listen((snapshots) {
