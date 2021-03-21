@@ -31,7 +31,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 - [x] Ajustes & Definindo tema Android e IOS
 - [x] Rolando mensagens automaticamente
 - [x] Ordenando mensagens por data
-- [ ] WhatzApp Projeto Final
+- [x] WhatzApp Projeto Final
 
 ## Requisitos
 
@@ -39,7 +39,7 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 |----------|:----:|
 |Flutter|1.22.5|
 |Dart|2.10.4|
-|Android SDK|=> 22 && <= 29|
+|Android SDK|29|
 
 ## Screenshots
 
@@ -52,3 +52,5 @@ Projeto desenvolvido com a tecnologia Flutter durante o curso [Desenvolvimento A
 <img src="./docs/screenshots/04.png" alt="Lista de Contatos" width="300">
 
 <img src="./docs/screenshots/05.png" alt="Tela de Configurações" width="300">
+
+<img src="./docs/screenshots/06.png" alt="Tela de Conversa" width="300">
